@@ -36,25 +36,46 @@ World.add(world, walls);
 
 const oneCell = 30;
 const gridCentre = width / 2;
+const startTop = oneCell / 2;
 
 // Square
 const piece1 = Body.create({
     parts: [
-      Bodies.rectangle(gridCentre - 15, 15, oneCell, oneCell),
-      Bodies.rectangle(gridCentre + 15, 15, oneCell, oneCell),
-      Bodies.rectangle(gridCentre - 15, 45, oneCell, oneCell),
-      Bodies.rectangle(gridCentre  + 15, 45, oneCell, oneCell)
+      Bodies.rectangle(gridCentre - 15, startTop, oneCell, oneCell),
+      Bodies.rectangle(gridCentre + 15, startTop, oneCell, oneCell),
+      Bodies.rectangle(gridCentre - 15, startTop + oneCell, oneCell, oneCell),
+      Bodies.rectangle(gridCentre  + 15, startTop + oneCell, oneCell, oneCell)
     ]
   });
 
 // Straight line
 const piece2 = Body.create({
   parts: [
-    Bodies.rectangle(gridCentre - 45, 15, oneCell, oneCell),
-    Bodies.rectangle(gridCentre - 15, 15, oneCell, oneCell),
-    Bodies.rectangle(gridCentre + 15, 15, oneCell, oneCell),
-    Bodies.rectangle(gridCentre  + 45, 15, oneCell, oneCell)
+    Bodies.rectangle(gridCentre - 45, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre - 15, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre + 15, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ]
 });
 
-World.add(world, piece2);
+// L shape
+const piece3 = Body.create({
+  parts: [
+    Bodies.rectangle(gridCentre - 15, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre - 15, startTop * 3, oneCell, oneCell),
+    Bodies.rectangle(gridCentre - 15, startTop * 5, oneCell, oneCell),
+    Bodies.rectangle(gridCentre  + 15, startTop * 5, oneCell, oneCell)
+  ]
+});
+
+// Backwards L shape
+const piece4 = Body.create({
+  parts: [
+    Bodies.rectangle(gridCentre + 15, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre + 15, startTop * 3, oneCell, oneCell),
+    Bodies.rectangle(gridCentre + 15, startTop * 5, oneCell, oneCell),
+    Bodies.rectangle(gridCentre - 15, startTop * 5, oneCell, oneCell)
+  ]
+});
+
+World.add(world, piece4);
