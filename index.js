@@ -78,4 +78,34 @@ const piece4 = Body.create({
   ]
 });
 
-World.add(world, piece4);
+// Upside down T
+const piece5 = Body.create({
+  parts: [
+    Bodies.rectangle(gridCentre, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre - 30, startTop * 3, oneCell, oneCell),
+    Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell),
+    Bodies.rectangle(gridCentre + 30, startTop * 3, oneCell, oneCell)
+  ]
+});
+
+// S shape
+const piece6 = Body.create({
+  parts: [
+    Bodies.rectangle(gridCentre, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre + 30, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre - 30, startTop * 3, oneCell, oneCell),
+    Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell)
+  ]
+});
+
+// Z shape
+const piece7 = Body.create({
+  parts: [
+    Bodies.rectangle(gridCentre - 30, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre, startTop, oneCell, oneCell),
+    Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell),
+    Bodies.rectangle(gridCentre + 30, startTop * 3, oneCell, oneCell)
+  ]
+});
+
+World.add(world, piece7);
