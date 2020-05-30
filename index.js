@@ -39,31 +39,14 @@ const gridCentre = width / 2;
 
 // Square
 
-const unit = Bodies.rectangle(gridCentre - 15, 15, oneCell, oneCell, {
-  render: {
-    fillStyle: 'red'
-  }
-});
-const unit2 = Bodies.rectangle(gridCentre + 15, 15, oneCell, oneCell, {
-  render: {
-    fillStyle: 'red'
-  }
-});
-const unit3 = Bodies.rectangle(gridCentre - 15, 45, oneCell, oneCell, {
-  render: {
-    fillStyle: 'red'
-  }
-});
-const unit4 = Bodies.rectangle(gridCentre  + 15, 45, oneCell, oneCell, {
-  render: {
-    fillStyle: 'red'
-  }
-});
+const square = Body.create({
+    parts: [
+      Bodies.rectangle(gridCentre - 15, 15, oneCell, oneCell, {friction: 1}),
+      Bodies.rectangle(gridCentre + 15, 15, oneCell, oneCell, {friction: 1}),
+      Bodies.rectangle(gridCentre - 15, 45, oneCell, oneCell, {friction: 1}),
+      Bodies.rectangle(gridCentre  + 15, 45, oneCell, oneCell, {friction: 1})
+    ]
+  });
+World.add(world, square);
 
-// Combination function
-
-const combined = Body.create({
-  parts: [unit, unit2, unit3, unit4],
-  // isStatic: true
-});
-World.add(world, combined);
+const 
