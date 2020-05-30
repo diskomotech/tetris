@@ -38,15 +38,23 @@ const oneCell = 30;
 const gridCentre = width / 2;
 
 // Square
-
-const square = Body.create({
+const piece1 = Body.create({
     parts: [
-      Bodies.rectangle(gridCentre - 15, 15, oneCell, oneCell, {friction: 1}),
-      Bodies.rectangle(gridCentre + 15, 15, oneCell, oneCell, {friction: 1}),
-      Bodies.rectangle(gridCentre - 15, 45, oneCell, oneCell, {friction: 1}),
-      Bodies.rectangle(gridCentre  + 15, 45, oneCell, oneCell, {friction: 1})
+      Bodies.rectangle(gridCentre - 15, 15, oneCell, oneCell),
+      Bodies.rectangle(gridCentre + 15, 15, oneCell, oneCell),
+      Bodies.rectangle(gridCentre - 15, 45, oneCell, oneCell),
+      Bodies.rectangle(gridCentre  + 15, 45, oneCell, oneCell)
     ]
   });
-World.add(world, square);
 
-const 
+// Straight line
+const piece2 = Body.create({
+  parts: [
+    Bodies.rectangle(gridCentre - 45, 15, oneCell, oneCell),
+    Bodies.rectangle(gridCentre - 15, 15, oneCell, oneCell),
+    Bodies.rectangle(gridCentre + 15, 15, oneCell, oneCell),
+    Bodies.rectangle(gridCentre  + 45, 15, oneCell, oneCell)
+  ]
+});
+
+World.add(world, piece2);
