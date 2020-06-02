@@ -133,3 +133,18 @@ Events.on(engine, 'collisionStart', event => {
       }
   }) 
 })
+
+// Keyboard controls
+
+document.addEventListener('keydown', event => {
+  const { x, y } = piece1.velocity;
+  if (event.keyCode === 38 || event.keyCode === 40) {
+    Body.rotate(piece1, 90);
+  }
+  if (event.keyCode === 37) {
+    Body.setVelocity(piece1, { x: x - 2, y});
+  }
+  if (event.keyCode === 39) {
+    Body.setVelocity(piece1, { x: x + 2, y});
+  }
+})
