@@ -23,6 +23,8 @@ const render = Render.create({
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
+world.gravity.y = 0.12;
+
 // Walls
 
 const walls = [
