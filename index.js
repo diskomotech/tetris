@@ -59,7 +59,8 @@ const piece2 = Body.create({
     Bodies.rectangle(gridCentre + 15, startTop, oneCell, oneCell),
     Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ],
-  label: 'piece'
+  label: 'piece',
+  setInertia: 100
 });
 
 // L shape
@@ -117,7 +118,7 @@ const piece7 = Body.create({
   label: 'piece'
 });
 
-World.add(world, piece1);
+World.add(world, piece2);
 
 // Reduce physics on impact with floor
 
@@ -129,7 +130,23 @@ Events.on(engine, 'collisionStart', event => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.parent.label)
       ) {
+        world.bodies.forEach(body => Body.setInertia(body, 200));
         world.bodies.forEach(body => Body.setStatic(body, true));
+      }
+  }) 
+})
+
+// Reduce physics on impact with sides
+
+Events.on(engine, 'collisionStart', event => {
+  event.pairs.forEach((collision) => {
+    const labels = ['side', 'piece'];
+
+    if (
+      labels.includes(collision.bodyA.label) &&
+      labels.includes(collision.bodyB.parent.label)
+      ) {
+        world.bodies.forEach(body => Body.setInertia(body, 200));
       }
   }) 
 })
@@ -137,14 +154,14 @@ Events.on(engine, 'collisionStart', event => {
 // Keyboard controls
 
 document.addEventListener('keydown', event => {
-  const { x, y } = piece1.velocity;
+  const { x, y } = piece2.velocity;
   if (event.keyCode === 38 || event.keyCode === 40) {
-    Body.rotate(piece1, 90);
+    Body.rotate(piece2, 90);
   }
   if (event.keyCode === 37) {
-    Body.setVelocity(piece1, { x: x - 2, y});
+    Body.setVelocity(piece2, { x: x - 2, y});
   }
   if (event.keyCode === 39) {
-    Body.setVelocity(piece1, { x: x + 2, y});
+    Body.setVelocity(piece2, { x: x + 2, y});
   }
 })
