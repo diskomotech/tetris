@@ -60,7 +60,6 @@ const piece2 = Body.create({
     Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ],
   label: 'piece',
-  setInertia: 100
 });
 
 // L shape
@@ -146,7 +145,10 @@ Events.on(engine, 'collisionStart', event => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.parent.label)
       ) {
-        world.bodies.forEach(body => Body.setInertia(body, 200));
+        world.bodies.forEach(body => {
+          Body.setInertia(body, 500);
+          Body.setMass(body, 50);
+        });
       }
   }) 
 })
