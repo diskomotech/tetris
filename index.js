@@ -130,10 +130,10 @@ Events.on(engine, 'collisionStart', event => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.parent.label)
       ) {
-        world.bodies.forEach(body => Body.setInertia(body, Infinity));
-        // world.bodies.forEach(body => {
-        //   setTimeout(() => Body.setStatic(body, true), 1000)
-        // }); 
+        world.bodies.forEach(body => Body.setInertia(body, 50000));
+        world.bodies.forEach(body => {
+          setTimeout(() => Body.setStatic(body, true), 1000)
+        }); 
       }
   }) 
 })
