@@ -60,6 +60,7 @@ const piece2 = Body.create({
     Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ],
   label: 'piece',
+  frictionStatic: 10
 });
 
 // L shape
@@ -161,9 +162,9 @@ document.addEventListener('keydown', event => {
     Body.rotate(piece2, 90);
   }
   if (event.keyCode === 37) {
-    Body.setVelocity(piece2, { x: x - 2, y});
+    Body.setVelocity(piece2, { x: x - 1.5, y});
   }
   if (event.keyCode === 39) {
-    Body.setVelocity(piece2, { x: x + 2, y});
+    Body.setVelocity(piece2, { x: x + 1.5, y});
   }
 })
