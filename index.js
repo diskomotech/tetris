@@ -39,7 +39,7 @@ World.add(world, walls);
 const oneCell = 30;
 const gridCentre = width / 2;
 const startTop = oneCell / 2;
-const label = 'label';
+const label = 'piece';
 const frictionStatic = 10;
 
 // Square
@@ -63,7 +63,8 @@ const piece2 = Body.create({
     Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ],
   label,
-  frictionStatic
+  frictionStatic,
+  slop: 0.5
 });
 
 // L shape
@@ -147,7 +148,10 @@ Events.on(engine, 'collisionStart', event => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.parent.label)
       ) {
-        world.bodies.forEach(body => Body.setInertia(body, 50000));
+        world.bodies.forEach(body => {
+          Body.setInertia(body, 50000);
+          Body.setMass(body, 1000000);
+        });
         world.bodies.forEach(body => {
           setTimeout(() => Body.setStatic(body, true), 1000)
         }); 
