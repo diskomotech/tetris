@@ -177,8 +177,11 @@ Events.on(engine, 'collisionStart', event => {
 
 document.addEventListener('keydown', event => {
   const { x, y } = activePiece.velocity;
-  if (event.keyCode === 38 || event.keyCode === 40) {
+  if (event.keyCode === 38) {
     Body.rotate(activePiece, 82);
+  }
+  if (event.keyCode === 40) {
+    Body.rotate(activePiece, -82);
   }
   if (event.keyCode === 37) {
     Body.setVelocity(activePiece, { x: -1.3, y});
