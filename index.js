@@ -23,7 +23,7 @@ const render = Render.create({
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
-world.gravity.y = 0.07;
+world.gravity.y = 0.06;
 
 // Walls
 
@@ -39,6 +39,8 @@ World.add(world, walls);
 const oneCell = 30;
 const gridCentre = width / 2;
 const startTop = oneCell / 2;
+const label = 'label';
+const frictionStatic = 10;
 
 // Square
 const piece1 = Body.create({
@@ -48,7 +50,8 @@ const piece1 = Body.create({
       Bodies.rectangle(gridCentre - 15, startTop + oneCell, oneCell, oneCell),
       Bodies.rectangle(gridCentre  + 15, startTop + oneCell, oneCell, oneCell)
     ],
-    label: 'piece'
+    label,
+    frictionStatic
   });
 
 // Straight line
@@ -59,8 +62,8 @@ const piece2 = Body.create({
     Bodies.rectangle(gridCentre + 15, startTop, oneCell, oneCell),
     Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ],
-  label: 'piece',
-  frictionStatic: 10,
+  label,
+  frictionStatic
 });
 
 // L shape
@@ -71,7 +74,8 @@ const piece3 = Body.create({
     Bodies.rectangle(gridCentre - 15, startTop * 5, oneCell, oneCell),
     Bodies.rectangle(gridCentre  + 15, startTop * 5, oneCell, oneCell)
   ],
-  label: 'piece'
+  label,
+  frictionStatic
 });
 
 // Backwards L shape
@@ -82,7 +86,8 @@ const piece4 = Body.create({
     Bodies.rectangle(gridCentre + 15, startTop * 5, oneCell, oneCell),
     Bodies.rectangle(gridCentre - 15, startTop * 5, oneCell, oneCell)
   ],
-  label: 'piece'
+  label,
+  frictionStatic
 });
 
 // Upside down T
@@ -93,7 +98,8 @@ const piece5 = Body.create({
     Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell),
     Bodies.rectangle(gridCentre + 30, startTop * 3, oneCell, oneCell)
   ],
-  label: 'piece'
+  label,
+  frictionStatic
 });
 
 // S shape
@@ -104,7 +110,8 @@ const piece6 = Body.create({
     Bodies.rectangle(gridCentre - 30, startTop * 3, oneCell, oneCell),
     Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell)
   ],
-  label: 'piece'
+  label,
+  frictionStatic
 });
 
 // Z shape
@@ -115,10 +122,20 @@ const piece7 = Body.create({
     Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell),
     Bodies.rectangle(gridCentre + 30, startTop * 3, oneCell, oneCell)
   ],
-  label: 'piece'
+  label,
+  frictionStatic
 });
 
-World.add(world, piece2);
+const piecesArray = [piece1, piece2, piece3, piece4, piece5, piece6, piece7];
+
+const randomPiece = (arr) => {
+  const index = Math.floor(Math.random() * 7);
+  return arr[index];
+}
+
+let activePiece = randomPiece(piecesArray);
+
+World.add(world, activePiece);
 
 // Reduce physics on impact with floor
 
@@ -159,14 +176,14 @@ Events.on(engine, 'collisionStart', event => {
 // Keyboard controls
 
 document.addEventListener('keydown', event => {
-  const { x, y } = piece2.velocity;
+  const { x, y } = activePiece.velocity;
   if (event.keyCode === 38 || event.keyCode === 40) {
-    Body.rotate(piece2, 82);
+    Body.rotate(activePiece, 82);
   }
   if (event.keyCode === 37) {
-    Body.setVelocity(piece2, { x: -1.3, y});
+    Body.setVelocity(activePiece, { x: -1.3, y});
   }
   if (event.keyCode === 39) {
-    Body.setVelocity(piece2, { x: 1.3, y});
+    Body.setVelocity(activePiece, { x: 1.3, y});
   }
 })
