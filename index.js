@@ -23,7 +23,7 @@ const render = Render.create({
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
-world.gravity.y = 0.12;
+world.gravity.y = 0.07;
 
 // Walls
 
@@ -60,7 +60,7 @@ const piece2 = Body.create({
     Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ],
   label: 'piece',
-  frictionStatic: 10
+  frictionStatic: 10,
 });
 
 // L shape
@@ -130,8 +130,10 @@ Events.on(engine, 'collisionStart', event => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.parent.label)
       ) {
-        world.bodies.forEach(body => Body.setInertia(body, 200));
-        world.bodies.forEach(body => Body.setStatic(body, true));
+        world.bodies.forEach(body => Body.setInertia(body, Infinity));
+        // world.bodies.forEach(body => {
+        //   setTimeout(() => Body.setStatic(body, true), 1000)
+        // }); 
       }
   }) 
 })
@@ -147,7 +149,7 @@ Events.on(engine, 'collisionStart', event => {
       labels.includes(collision.bodyB.parent.label)
       ) {
         world.bodies.forEach(body => {
-          Body.setInertia(body, 500);
+          Body.setInertia(body, 50000);
           Body.setMass(body, 50);
         });
       }
@@ -159,12 +161,12 @@ Events.on(engine, 'collisionStart', event => {
 document.addEventListener('keydown', event => {
   const { x, y } = piece2.velocity;
   if (event.keyCode === 38 || event.keyCode === 40) {
-    Body.rotate(piece2, 90);
+    Body.rotate(piece2, 82);
   }
   if (event.keyCode === 37) {
-    Body.setVelocity(piece2, { x: x - 1.5, y});
+    Body.setVelocity(piece2, { x: -1.3, y});
   }
   if (event.keyCode === 39) {
-    Body.setVelocity(piece2, { x: x + 1.5, y});
+    Body.setVelocity(piece2, { x: 1.3, y});
   }
 })
