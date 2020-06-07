@@ -7,7 +7,7 @@ const cellsVertical = 20;
 const width = 300;
 const height = 600;
 const unitLengthX = width / cellsHorizontal;
-// const unitLengthY = height / cellsVertical;
+const unitLengthY = height / cellsVertical;
 
 const engine = Engine.create();
 const { world } = engine;
@@ -23,7 +23,7 @@ const render = Render.create({
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
-world.gravity.y = 0.06;
+world.gravity.y = 0;
 
 // Walls
 
@@ -138,6 +138,22 @@ let activePiece = randomPiece(piecesArray);
 
 World.add(world, activePiece);
 
+// Create event to replace gravity effect on pieces
+
+let counter = 0;
+
+Events.on(engine, 'afterUpdate', event => {
+  const { x, y } = activePiece.position;
+  counter += 1;
+  engine.timing.timeScale = 0.0001;
+
+  // Every 1 second
+  if (counter >= 60) {
+    Body.setPosition(activePiece, { x, y: y + unitLengthY });
+    counter = 0;
+  }
+})
+
 // Reduce physics on impact with floor
 
 Events.on(engine, 'collisionStart', event => {
@@ -188,7 +204,6 @@ document.addEventListener('keydown', event => {
     Body.rotate(activePiece, -82);
   }
   if (event.keyCode === 37) {
-    
     Body.setPosition(activePiece, { x: x - unitLengthX, y});
   }
   if (event.keyCode === 39) {
