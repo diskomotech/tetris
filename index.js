@@ -6,7 +6,7 @@ const cellsVertical = 20;
 // const height = window.innerHeight * 0.90;
 const width = 300;
 const height = 600;
-// const unitLengthX = width / cellsHorizontal;
+const unitLengthX = width / cellsHorizontal;
 // const unitLengthY = height / cellsVertical;
 
 const engine = Engine.create();
@@ -180,7 +180,7 @@ Events.on(engine, 'collisionStart', event => {
 // Keyboard controls
 
 document.addEventListener('keydown', event => {
-  const { x, y } = activePiece.velocity;
+  const { x, y } = activePiece.position;
   if (event.keyCode === 38) {
     Body.rotate(activePiece, 82);
   }
@@ -188,9 +188,10 @@ document.addEventListener('keydown', event => {
     Body.rotate(activePiece, -82);
   }
   if (event.keyCode === 37) {
-    Body.setVelocity(activePiece, { x: -1.3, y});
+    
+    Body.setPosition(activePiece, { x: x - unitLengthX, y});
   }
   if (event.keyCode === 39) {
-    Body.setVelocity(activePiece, { x: 1.3, y});
+    Body.setPosition(activePiece, { x: x + unitLengthX, y});
   }
 })
