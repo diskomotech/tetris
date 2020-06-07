@@ -24,6 +24,16 @@ Render.run(render);
 Runner.run(Runner.create(), engine);
 
 world.gravity.y = 0;
+world.bounds = {
+  min: {
+    x: -Infinity,
+    y: -Infinity
+  },
+  max: {
+    x: Infinity,
+    y: 600
+  }
+}
 
 // Walls
 
@@ -64,7 +74,6 @@ const piece2 = Body.create({
   ],
   label,
   frictionStatic,
-  slop: 0.5
 });
 
 // L shape
@@ -144,11 +153,18 @@ let counter = 0;
 
 Events.on(engine, 'afterUpdate', event => {
   const { x, y } = activePiece.position;
+  const currentYBounds = activePiece.bounds.max.y;
   counter += 1;
-  engine.timing.timeScale = 0.0001;
+
+  // if(currentYBounds >= height - 0.5) {
+  //   Body.setPosition(activePiece, { x, y: height - (unitLengthY * 2) });
+  //   // Body.setInertia(activePiece, 50000);
+  //   // Body.setMass(activePiece, 1000000);
+  //   Body.setStatic(activePiece, true);
+  // }
 
   // Every 1 second
-  if (counter >= 60) {
+  if (counter >= 60 && currentYBounds <= height - 1) {
     Body.setPosition(activePiece, { x, y: y + unitLengthY });
     counter = 0;
   }
@@ -156,42 +172,42 @@ Events.on(engine, 'afterUpdate', event => {
 
 // Reduce physics on impact with floor
 
-Events.on(engine, 'collisionStart', event => {
-  event.pairs.forEach((collision) => {
-    const labels = ['floor', 'piece'];
+// Events.on(engine, 'collisionStart', event => {
+//   event.pairs.forEach((collision) => {
+//     const labels = ['floor', 'piece'];
 
-    if (
-      labels.includes(collision.bodyA.label) &&
-      labels.includes(collision.bodyB.parent.label)
-      ) {
-        world.bodies.forEach(body => {
-          Body.setInertia(body, 50000);
-          Body.setMass(body, 1000000);
-        });
-        world.bodies.forEach(body => {
-          setTimeout(() => Body.setStatic(body, true), 1000)
-        }); 
-      }
-  }) 
-})
+//     if (
+//       labels.includes(collision.bodyA.label) &&
+//       labels.includes(collision.bodyB.parent.label)
+//       ) {
+//         world.bodies.forEach(body => {
+//           Body.setInertia(body, 50000);
+//           Body.setMass(body, 1000000);
+//         });
+//         world.bodies.forEach(body => {
+//           setTimeout(() => Body.setStatic(body, true), 1000)
+//         }); 
+//       }
+//   }) 
+// })
 
 // Reduce physics on impact with sides
 
-Events.on(engine, 'collisionStart', event => {
-  event.pairs.forEach((collision) => {
-    const labels = ['side', 'piece'];
+// Events.on(engine, 'collisionStart', event => {
+//   event.pairs.forEach((collision) => {
+//     const labels = ['side', 'piece'];
 
-    if (
-      labels.includes(collision.bodyA.label) &&
-      labels.includes(collision.bodyB.parent.label)
-      ) {
-        world.bodies.forEach(body => {
-          Body.setInertia(body, 50000);
-          Body.setMass(body, 50);
-        });
-      }
-  }) 
-})
+//     if (
+//       labels.includes(collision.bodyA.label) &&
+//       labels.includes(collision.bodyB.parent.label)
+//       ) {
+//         world.bodies.forEach(body => {
+//           Body.setInertia(body, 50000);
+//           Body.setMass(body, 50);
+//         });
+//       }
+//   }) 
+// })
 
 // Keyboard controls
 
