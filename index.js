@@ -49,7 +49,6 @@ World.add(world, walls);
 const oneCell = 30;
 const gridCentre = width / 2;
 const startTop = oneCell / 2;
-const label = 'piece';
 const frictionStatic = 10;
 
 // Square
@@ -60,7 +59,6 @@ const piece1 = Body.create({
       Bodies.rectangle(gridCentre - 15, startTop + oneCell, oneCell, oneCell),
       Bodies.rectangle(gridCentre  + 15, startTop + oneCell, oneCell, oneCell)
     ],
-    label,
     frictionStatic
   });
 
@@ -72,8 +70,8 @@ const piece2 = Body.create({
     Bodies.rectangle(gridCentre + 15, startTop, oneCell, oneCell),
     Bodies.rectangle(gridCentre  + 45, startTop, oneCell, oneCell)
   ],
-  label,
-  frictionStatic,
+  label: 'straight',
+  frictionStatic
 });
 
 // L shape
@@ -84,7 +82,6 @@ const piece3 = Body.create({
     Bodies.rectangle(gridCentre - 15, startTop * 5, oneCell, oneCell),
     Bodies.rectangle(gridCentre  + 15, startTop * 5, oneCell, oneCell)
   ],
-  label,
   frictionStatic
 });
 
@@ -96,7 +93,6 @@ const piece4 = Body.create({
     Bodies.rectangle(gridCentre + 15, startTop * 5, oneCell, oneCell),
     Bodies.rectangle(gridCentre - 15, startTop * 5, oneCell, oneCell)
   ],
-  label,
   frictionStatic
 });
 
@@ -108,7 +104,6 @@ const piece5 = Body.create({
     Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell),
     Bodies.rectangle(gridCentre + 30, startTop * 3, oneCell, oneCell)
   ],
-  label,
   frictionStatic
 });
 
@@ -120,7 +115,6 @@ const piece6 = Body.create({
     Bodies.rectangle(gridCentre - 30, startTop * 3, oneCell, oneCell),
     Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell)
   ],
-  label,
   frictionStatic
 });
 
@@ -132,7 +126,6 @@ const piece7 = Body.create({
     Bodies.rectangle(gridCentre, startTop * 3, oneCell, oneCell),
     Bodies.rectangle(gridCentre + 30, startTop * 3, oneCell, oneCell)
   ],
-  label,
   frictionStatic
 });
 
@@ -156,13 +149,6 @@ Events.on(engine, 'afterUpdate', event => {
   const currentYBounds = activePiece.bounds.max.y;
   counter += 1;
 
-  // if(currentYBounds >= height - 0.5) {
-  //   Body.setPosition(activePiece, { x, y: height - (unitLengthY * 2) });
-  //   // Body.setInertia(activePiece, 50000);
-  //   // Body.setMass(activePiece, 1000000);
-  //   Body.setStatic(activePiece, true);
-  // }
-
   // Every 1 second
   if (counter >= 60 && currentYBounds <= height - 1) {
     Body.setPosition(activePiece, { x, y: y + unitLengthY });
@@ -170,26 +156,15 @@ Events.on(engine, 'afterUpdate', event => {
   }
 })
 
-// Reduce physics on impact with floor
+Events.on(engine, 'beforeUpdate', event => {
+  const { x, y } = activePiece.position;
+  const currentYBounds = activePiece.bounds.max.y;
 
-// Events.on(engine, 'collisionStart', event => {
-//   event.pairs.forEach((collision) => {
-//     const labels = ['floor', 'piece'];
-
-//     if (
-//       labels.includes(collision.bodyA.label) &&
-//       labels.includes(collision.bodyB.parent.label)
-//       ) {
-//         world.bodies.forEach(body => {
-//           Body.setInertia(body, 50000);
-//           Body.setMass(body, 1000000);
-//         });
-//         world.bodies.forEach(body => {
-//           setTimeout(() => Body.setStatic(body, true), 1000)
-//         }); 
-//       }
-//   }) 
-// })
+  if(currentYBounds >= height - 0.5 && activePiece.parent.label === 'straight') {
+    Body.setPosition(activePiece, { x, y: height - (unitLengthY * 2) });
+    Body.setStatic(activePiece, true);
+  }
+})
 
 // Reduce physics on impact with sides
 
