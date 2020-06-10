@@ -26,11 +26,11 @@ Runner.run(Runner.create(), engine);
 world.gravity.y = 0;
 world.bounds = {
   min: {
-    x: -Infinity,
+    x: 0,
     y: -Infinity
   },
   max: {
-    x: Infinity,
+    x: width,
     y: height
   }
 }
@@ -156,11 +156,13 @@ Events.on(engine, 'afterUpdate', event => {
   }
 })
 
+// Special case to handle straight line piece and floor collision
+
 Events.on(engine, 'beforeUpdate', event => {
   const { x, y } = activePiece.position;
   const currentYBounds = activePiece.bounds.max.y;
 
-  if(currentYBounds >= height - 0.5 && activePiece.parent.label === 'straight') {
+  if (currentYBounds >= height - 0.5 && activePiece.parent.label === 'straight') {
     Body.setPosition(activePiece, { x, y: height - (unitLengthY * 2) });
     Body.setStatic(activePiece, true);
   }
