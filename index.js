@@ -31,7 +31,7 @@ world.bounds = {
   },
   max: {
     x: Infinity,
-    y: 600
+    y: height
   }
 }
 
