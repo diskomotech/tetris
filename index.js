@@ -168,24 +168,6 @@ Events.on(engine, 'beforeUpdate', event => {
   }
 })
 
-// Reduce physics on impact with sides
-
-// Events.on(engine, 'collisionStart', event => {
-//   event.pairs.forEach((collision) => {
-//     const labels = ['side', 'piece'];
-
-//     if (
-//       labels.includes(collision.bodyA.label) &&
-//       labels.includes(collision.bodyB.parent.label)
-//       ) {
-//         world.bodies.forEach(body => {
-//           Body.setInertia(body, 50000);
-//           Body.setMass(body, 50);
-//         });
-//       }
-//   }) 
-// })
-
 // Keyboard controls
 
 document.addEventListener('keydown', event => {
@@ -196,10 +178,10 @@ document.addEventListener('keydown', event => {
   if (event.keyCode === 40) {
     Body.rotate(activePiece, -82);
   }
-  if (event.keyCode === 37) {
+  if (activePiece.bounds.min.x > 1 && event.keyCode === 37) {
     Body.setPosition(activePiece, { x: x - unitLengthX, y});
   }
-  if (event.keyCode === 39) {
+  if (activePiece.bounds.max.x <= width - (unitLengthX / 2) && event.keyCode === 39) {
     Body.setPosition(activePiece, { x: x + unitLengthX, y});
   }
 })
