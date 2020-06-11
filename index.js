@@ -38,9 +38,9 @@ world.bounds = {
 // Walls
 
 const walls = [
-  Bodies.rectangle(width / 2, height, width, 2, { isStatic: true, label: 'floor' }),
-  Bodies.rectangle(0, height / 2, 2, height, { isStatic: true, label: 'side' }),
-  Bodies.rectangle(width, height / 2, 2, height, { isStatic: true, label: 'side' })
+  Bodies.rectangle(width / 2, height, width, 2, { isStatic: true }),
+  Bodies.rectangle(0, height / 2, 2, height, { isStatic: true }),
+  Bodies.rectangle(width, height / 2, 2, height, { isStatic: true })
 ];
 World.add(world, walls);
 
