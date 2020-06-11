@@ -173,10 +173,10 @@ Events.on(engine, 'beforeUpdate', event => {
 document.addEventListener('keydown', event => {
   const { x, y } = activePiece.position;
   if (event.keyCode === 38) {
-    Body.rotate(activePiece, 82);
+    Body.rotate(activePiece.parent, 11);
   }
   if (event.keyCode === 40) {
-    Body.rotate(activePiece, -82);
+    Body.rotate(activePiece.parent, -11);
   }
   if (activePiece.bounds.min.x > 1 && event.keyCode === 37) {
     Body.setPosition(activePiece, { x: x - unitLengthX, y});
