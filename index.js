@@ -59,6 +59,7 @@ const piece1 = Body.create({
       Bodies.rectangle(gridCentre - 15, startTop + oneCell, oneCell, oneCell),
       Bodies.rectangle(gridCentre  + 15, startTop + oneCell, oneCell, oneCell)
     ],
+    label: 'square',
     frictionStatic
   });
 
@@ -150,7 +151,7 @@ Events.on(engine, 'afterUpdate', event => {
   counter += 1;
 
   // Every 1 second
-  if (counter >= 60 && currentYBounds <= height - 1) {
+  if (currentYBounds <= height - 1 && counter >= 60)  {
     Body.setPosition(activePiece, { x, y: y + unitLengthY });
     counter = 0;
   }
@@ -161,6 +162,16 @@ Events.on(engine, 'afterUpdate', event => {
 Events.on(engine, 'beforeUpdate', event => {
   const { x, y } = activePiece.position;
   const currentYBounds = activePiece.bounds.max.y;
+  const pieceLength = Math.round(Math.floor(activePiece.bounds.max.y - activePiece.bounds.min.y) / unitLengthX);
+
+  if (activePiece.parent.label === 'square') {
+    return;
+  }
+
+  if (currentYBounds >= height - 0.5) {
+    Body.setPosition(activePiece, { x, y: height - (unitLengthY * 1.5) });
+    Body.setStatic(activePiece, true);
+  }
 
   if (currentYBounds >= height - 0.5 && activePiece.parent.label === 'straight') {
     Body.setPosition(activePiece, { x, y: height - (unitLengthY * 2) });
@@ -172,11 +183,20 @@ Events.on(engine, 'beforeUpdate', event => {
 
 document.addEventListener('keydown', event => {
   const { x, y } = activePiece.position;
+  
   if (event.keyCode === 38) {
-    Body.rotate(activePiece.parent, 11);
+    if (activePiece.angle >= 33) {
+      Body.setAngle(activePiece, 0);
+    } else {
+      Body.rotate(activePiece.parent, 11);
+    } 
   }
   if (event.keyCode === 40) {
+    if (activePiece.angle <= -33) {
+      Body.setAngle(activePiece, 0);
+    } else {
     Body.rotate(activePiece.parent, -11);
+    }
   }
   if (activePiece.bounds.min.x > 1 && event.keyCode === 37) {
     Body.setPosition(activePiece, { x: x - unitLengthX, y});
