@@ -59,7 +59,6 @@ const piece1 = Body.create({
       Bodies.rectangle(gridCentre - 15, startTop + oneCell, oneCell, oneCell),
       Bodies.rectangle(gridCentre  + 15, startTop + oneCell, oneCell, oneCell)
     ],
-    label: 'square',
     frictionStatic
   });
 
@@ -141,7 +140,7 @@ let activePiece = randomPiece(piecesArray);
 
 World.add(world, activePiece);
 
-// Create event to replace gravity effect on pieces
+// Event to drop pieces down every 1 second
 
 let counter = 0;
 
@@ -157,21 +156,11 @@ Events.on(engine, 'afterUpdate', event => {
   }
 })
 
-// Special case to handle straight line piece and floor collision
+// Special event to handle straight line piece and floor collision
 
 Events.on(engine, 'beforeUpdate', event => {
   const { x, y } = activePiece.position;
   const currentYBounds = activePiece.bounds.max.y;
-  const pieceLength = Math.round(Math.floor(activePiece.bounds.max.y - activePiece.bounds.min.y) / unitLengthX);
-
-  if (activePiece.parent.label === 'square') {
-    return;
-  }
-
-  if (currentYBounds >= height - 0.5) {
-    Body.setPosition(activePiece, { x, y: height - (unitLengthY * 1.5) });
-    Body.setStatic(activePiece, true);
-  }
 
   if (currentYBounds >= height - 0.5 && activePiece.parent.label === 'straight') {
     Body.setPosition(activePiece, { x, y: height - (unitLengthY * 2) });
